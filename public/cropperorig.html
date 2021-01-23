@@ -1,0 +1,58 @@
+<!DOCTYPE html> 
+<html> 
+<head>
+
+
+
+</head>
+
+
+
+
+<body> 
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+    </div>
+    <div class="custom-file">
+      <input type="file" class="custom-file-input" id="inputGroupFile01"
+        aria-describedby="inputGroupFileAddon01">
+      <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+    </div>
+  </div>
+
+Field2: <input type="text" id="field2"value="Time Code"><br><br>
+
+<button onclick="fileread()"></button>
+
+
+<script>
+function myFunction() {
+  let path=document.getElementById("inputGroupFile01").value + "#t="+document.getElementById("field2").value
+  document.getElementById("whatoplay").setAttribute("src",path)
+  
+}
+function fileread(){
+  var input = document.getElementById("inputGroupFile01");
+  var fReader = new FileReader();
+  fReader.readAsDataURL(input.files[0]);
+  fReader.onloadend = function(event){
+    var img = document.getElementById("whatoplay");
+    img.src = event.target.result+"#t="+document.getElementById("field2").value;
+    //document.getElementById("whatoplay").setAttribute("src",img.src + "#t="+document.getElementById("field2").value)
+  }
+}
+</script>
+  
+  <!-- 1:1 aspect ratio 
+  <div class="embed-responsive embed-responsive-1by1">
+	<iframe id="whatoplay" class="embed-responsive-item" src="Is CBD oil expensive - sound byte.mp4#t=5,10"></iframe>
+  </div> -->
+
+  <video id="whatoplay" width="320" height="240" controls="" autoplay="" name="media"><source src="file:///C:/Website/mach1/public/Is%20CBD%20oil%20expensive%20-%20sound%20byte.mp4#t=5,10" type="video/mp4"></video>>
+  
+
+
+
+</body> 
+</html>

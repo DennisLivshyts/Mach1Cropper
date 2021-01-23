@@ -1,0 +1,551 @@
+<!DOCTYPE html> 
+<html> 
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>Blaster</title>
+
+<!-- CSS -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,600">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
+<link rel="stylesheet" href="assets/css/animate.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/media-queries.css">
+
+<!-- Favicon and touch icons -->
+<link rel="shortcut icon" href="assets/ico/favicon.png">
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+<link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+
+  <!--<video id="whatoplay" width="320" height="240" controls="" autoplay="" name="media"><source src="Is%20CBD%20oil%20expensive%20-%20sound%20byte.mp4#t=5,10" type="video/mp4"></video>-->
+ 
+    <style>
+      /* .right {
+        position: absolute;
+        right: 0px;
+        width: 300px;
+        //*border: 3px solid #73AD21;
+        padding: 10px;
+      } */
+      .flex-container {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      }
+      
+      .video {
+        background-color: #f1f1f1;
+        width:45%;
+        margin: 10px;
+        padding: 20px;
+        font-size: 30px;
+      }
+      .control {
+        background-color: #f1f1f1;
+        width:45%;
+        margin: 10px;
+        padding: 20px;
+        font-size: 30px;
+      }
+      .control > div{
+  
+        margin: 10px;
+        padding: 20px;
+        font-size: 20px;
+      }
+      .control > input{
+      
+        margin: 10px;
+        padding: 20px;
+        font-size: 20px;
+      }
+      </style>
+</head>
+
+
+
+
+<body onload="getFiles()">
+
+  <!--div class="right"--->
+
+  <div class="flex-container">
+       
+    <div class="control">
+      <!-- <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+      </div> -->
+  
+      <div class="custom-file">
+          <input type="file" class="custom-file-input" id="inputGroupFile01" 
+          aria-describedby="inputGroupFileAddon01">
+          <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+      </div>
+
+
+      
+      <!-- <span>Upload Video:</span>   
+      <input type="file" name="uploadFileName" required/> <br>  -->
+      <button onclick="uploadSendPOST()"> Upload </button>  
+      
+      <div>
+        <select id="remoteFileName" size="8" ></select>
+      </div>
+
+      
+      <!--div display="flex">
+        Start: <input type="text" id="StartTime" value="00:00:00">
+        End: <input type="text" id="EndTime" value="00:00:03">
+        <button onclick="handlePlay()">Play</button>
+      </div-->
+
+      
+       <!--OutputFileName:<br> <input type="text" id="outFileName" value="Unknown" ><br><br-->
+      <button onclick="sendPOST_Trim()"> Trim Video </button>
+      
+      <!--<div>
+        Operation result: <input type="text" id="PostResult" value="Unknown"><br><br>
+      </div>-->
+      
+      <!--table class="table table-bordered border-primary">
+        <thead>
+          <tr>
+            
+            <th scope="col">Start</th>
+            <th scope="col">End</th>
+            <th scope="col">Handle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            
+            <td><input type="text" id="StartTime" value="00:00:00"></td>
+            <td><input type="text" id="EndTime" value="00:00:03"></td>
+            <td><button onclick="handlePlay()">Play</button></td>
+          </tr>
+          <tr>
+            <td><input type="text" id="StartTime" value="00:00:00"></td>
+            <td><input type="text" id="EndTime" value="00:00:03"></td>
+            <td><button onclick="handlePlay()">Play</button></td>
+          </tr>
+          <tr>
+            <td><input type="text" id="StartTime" value="00:00:00"></td>
+            <td><input type="text" id="EndTime" value="00:00:03"></td>
+            <td><button onclick="handlePlay()">Play</button></td>
+          </tr>
+        </tbody>
+      </table-->
+      <!-- This is a form version of upload and open dialog. doesnt work because it redirects to new page, and also changes file name.
+        <form id ="upload_form" action="/profile" method="post" enctype="multipart/form-data">
+        <input type="file" name="avatar" />
+        <input type="submit" value="Upload"/>
+      </form> -->
+
+      
+    </div>
+    <div class="video">
+      <video  id="whatoplay"  width="800" height="600" controls="" autoplay="" name="media"><source src="small.mp4" type="video/mp4"></video>  
+    </div> 
+  </div>
+  <table id="start_end_table" class="table table-bordered border-primary">
+    <thead>
+      <tr>
+        <th scope="col">Trim</th>
+        <th scope="col">Start</th>
+        <th scope="col">End</th>
+        <th scope="col">Handle</th>
+        <th scope="col">OutFileName</th>
+        <th scope="col">Operation Result</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><input class="form-check-input position-static" type="checkbox" id="cell_0" value="option1" aria-label="..."></td>
+        <td><input type="text" id="cell_1" value="00:00:00"></td>
+        <td><input type="text" id="cell_2" value="00:00:00"></td>
+        <td><button id="cell_3" onclick="handlePlay(this)" value="77">Play</button></td>
+        <td><input type="text" id="cell_4" value="Unknown" ></td>
+        <td><input type="text" id="cell_5" value="Unknown"></td>
+      </tr>
+      
+    </tbody>
+  </table>
+  <button onclick="myCreateFunction()">Create row</button>
+  <button onclick="myDeleteFunction()">Delete row</button>
+<!-- Top menu -->
+<!--nav class="navbar navbar-dark fixed-top navbar-expand-md navbar-no-bg">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">Toolahoop</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                  <a  href="./">Home</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link scroll-link" href="#services">Blaster</a>
+              </li>dddwdwass
+              <li class="nav-item">
+                  <a class="nav-link scroll-link" href="#about-us">About</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link scroll-link" href="#portfolio">Work</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link scroll-link" href="#testimonials">Clients</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link scroll-link" href="#blog">Blog</a>
+              </li>
+          </ul>
+      </div>
+    </div>
+</nav-->
+
+<script>
+function hmsToSeconds(hms){//var hms = '02:04:33';
+  //'01:02:03'.split(':').reduce((acc,time) => (60 * acc) + +time); nice implementation
+  //var seconds = new Date('1970-01-01T' + time + 'Z').getTime() / 1000; nice implementation
+
+  var a = hms.split(':'); // split it at the colons
+  // minutes are worth 60 seconds. Hours are worth 60 minutes.
+  var seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]); 
+  return seconds; 
+}
+
+function extractFileName(str) {
+    return str.split('\\').pop().split('/').pop();
+} 
+
+function presentRange(startTime,endTime){
+  return startTime+'_'+endTime;
+}
+
+function defOutputName(fileName,startTime,stopTime){
+    fileName=extractFileName(fileName);
+    let lastI = fileName.lastIndexOf(".")
+    let suffix = fileName.slice(lastI)
+    return fileName.slice(0,lastI)+'_'+presentRange(startTime,stopTime)+suffix;
+}
+//<div>
+//          <input type="text" id="PostResult" value="Unknown"><br><br>
+//</div>
+//<input type="text" id="outFileName" value="Unknown" >
+function myCreateFunction() {
+  var table = document.getElementById("start_end_table");
+  var row = table.insertRow(-1);
+  var cell0 = row.insertCell(0);
+  var cell1 = row.insertCell(1);
+  var cell2 = row.insertCell(2);
+  var cell3 = row.insertCell(3);
+  var cell4 = row.insertCell(4);
+  var cell5 = row.insertCell(5);
+  
+  cntRow++;
+  var inp   = document.createElement("input");
+  inp.type="checkbox";
+  inp.className="form-check-input position-static";
+  inp.id  ="cell_"+((cntRow-1)*cntCols);
+  cell0.appendChild(inp);
+  
+  inp   = document.createElement("input");
+  inp.type="text";
+  inp.id  ="cell_"+((cntRow-1)*cntCols+1);
+  inp.value="00:00:00";
+  cell1.appendChild(inp);
+
+  inp   = document.createElement("input");
+  inp.type="text";
+  inp.id  ="cell_"+((cntRow-1)*cntCols+2);
+  inp.value="00:00:00";
+  cell2.appendChild(inp);
+
+  inp   = document.createElement("button");
+  inp.type="button";
+  inp.id  ="cell_"+((cntRow-1)*cntCols+3);
+  inp.textContent="Play";
+  inp.setAttribute("onclick","handlePlay(this)");
+  cell3.appendChild(inp);
+  
+  inp   = document.createElement("input");
+  inp.type="text";
+  inp.id ="cell_"+((cntRow-1)*cntCols+4);
+  inp.value="Unknown";
+  cell4.appendChild(inp);
+
+  inp   = document.createElement("input");
+  inp.type="text";
+  inp.id ="cell_"+((cntRow-1)*cntCols+5);
+  inp.value="Unknown";
+  cell5.appendChild(inp);
+}
+
+function myDeleteFunction() {
+  cntRow--;
+  document.getElementById("start_end_table").deleteRow(-1);
+}
+function fnameChangeHandler(){
+  let fileName=document.getElementById('remoteFileName').selectedOptions[0].value;
+  let lastI = fileName.lastIndexOf(".");
+  suffix = fileName.slice(lastI);
+
+  for(i=0;i<cntRow;i++){
+    let outputFname = document.getElementById('cell_'+(i*cntCols+4));
+    outputFname.value =  fileName.substring(0,lastI);
+  }
+
+  // const result = document.getElementById('cell_'+);
+  
+  // let startTime=hmsToSeconds(document.getElementById('StartTime0').value);
+  // let endTime=hmsToSeconds(document.getElementById('EndTime0').value);
+  // result.value = defOutputName(fileName,startTime,endTime);
+  //setVideo(extractFileName(fileName),startTime,endTime);
+}
+ 
+function uploadSendPOST() {
+  let result = document.getElementById('PostResult'); 
+  let fullName = document.getElementById('inputGroupFile01');
+  let fName=extractFileName(fullName.value);
+  let startTime = document.getElementById('StartTime');
+  let endTime = document.getElementById('EndTime');
+  let defaultFileName = document.getElementById('outFileName');
+  
+  result.value = "unknown";
+  // Creating a XHR object 
+  let xhr = new XMLHttpRequest();
+  //xhr.file = 'C:\\Users\\19256\\Downloads\\Fahrenheit 451.mp4';
+  let url = "upload"; 
+  // open a connection 
+  xhr.open("POST", url, true); 
+  // Set the request header i.e. which type of content you are sending 
+  //xhr.setRequestHeader("Content-Type", "multipart/form-data"); 
+  // Create a state change callback 
+  xhr.onreadystatechange = function () { 
+      if (xhr.readyState === 4 && xhr.status === 200) { 
+
+          // Print received data from server 
+          result.value = this.responseText; 
+      } 
+  }; 
+  // Converting JSON data to string 
+  // var data = JSON.stringify({ "FileName": fName.trim(), "StartTime": startTime.value.trim(), "EndTime": endTime.value.trim(), "DefaultFileName": defaultFileName.value.trim() }); 
+  // Sending data with the request 
+  //xhr.send(data); 
+  //var formData = new FormData($('#upload_form')[0]);
+  var formData = new FormData();
+  formData.append("avatar",$('#inputGroupFile01')[0].files[0]);
+  xhr.send(formData);
+};
+function findRowByFname(filename){
+  var tab=document.getElementById('start_end_table');
+  for(i=0;i<cntRow;i++){
+    if (tab.rows[i].cells[4].value==filename){
+      return i;
+    }
+    return -1;
+  }
+
+  
+}
+function getTrimStatus(){
+  let xhr =new XMLHttpRequest(); 
+  let url= "getStatus";
+  xhr.open("GET", url, true); 
+    // Set the request header i.e. which type of content you are sending 
+  xhr.setRequestHeader("Content-Type", "application/json"); 
+  // Create a state change callback 
+  xhr.onreadystatechange = function () { 
+    if (xhr.readyState === 4 && xhr.status === 200) { 
+      var myArr = JSON.parse(this.responseText);
+      //table with information on new status
+      
+      for(i=0;i<myArr.length;i++){
+        let row = findRowByFname(myArr[i].fileName);
+        if (row>=0){
+          document.getElementById('start_end_table').rows[row].cells[5].value=myArr[i].status;
+        }
+      }
+      return myArr.length; 
+    }
+    xmlhttp.open("GET", url, true);
+    xmlhttp.setRequestHeader("Content-Type", "application/json");
+    xmlhttp.send();
+  } 
+}
+function sendPOST_Trim() {
+  let fullName = document.getElementById('remoteFileName');
+  let fName=extractFileName(fullName.selectedOptions[0].value);
+  
+  for(i=0;i<cntRow;i++){
+    let isChecked= document.getElementById('cell_'+i*cntCols);
+     
+    if(document.getElementById('cell_'+i*cntCols).checked==true) { 
+      
+      let startTime = document.getElementById('cell_'+(i*cntCols+1)).value;
+      let endTime = document.getElementById('cell_'+(i*cntCols+2)).value;
+      
+      let defaultFileName = document.getElementById('cell_'+(i*cntCols+4)).value.trim();
+      defaultFileName += '_' + presentRange(hmsToSeconds(startTime),hmsToSeconds(endTime)) + suffix;
+      let trimResult = document.getElementById('cell_'+(i*cntCols+5));
+      trimResult.value = "unknown";
+      // Creating a XHR object 
+      let xhr = new XMLHttpRequest(); 
+      let url = "trim"; 
+      // open a connection 
+      xhr.open("POST", url, true); 
+      // Set the request header i.e. which type of content you are sending 
+      xhr.setRequestHeader("Content-Type", "application/json"); 
+      // Create a state change callback 
+      xhr.onreadystatechange = function () { 
+          if (xhr.readyState === 4 && xhr.status === 200) { 
+
+              // Print received data from server 
+              trimResult.value = this.responseText; 
+
+          } 
+      }
+
+      // Converting JSON data to string 
+      var data = JSON.stringify({ "FileName": fName.trim(), "StartTime": startTime.trim(),
+                                   "EndTime": endTime.trim(), "DefaultFileName": defaultFileName}); 
+      // Sending data with the request 
+      xhr.send(data);
+      console.log("Start waiting for trim result");
+      for(t=0;t<60;t++) {
+        if(trimResult.value !="unknown")
+          break;
+        setTimeout(() => {console.log(".");}, 1000);
+        // here we need to send get /status to server
+      }
+      if(t==60)
+        trimResult.value ="timeout";
+    };
+  }  
+};
+
+function getFiles(){
+  let url = "get_files"; 
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var myArr = JSON.parse(this.responseText);
+      var ctrl = document.getElementById("remoteFileName");
+      myArr.forEach(element => {
+        var option = document.createElement("option");
+        option.text = element;
+        ctrl.add(option);  
+      });
+      
+    }
+  };
+  xmlhttp.open("GET", url, true);
+  xmlhttp.setRequestHeader("Content-Type", "application/json");
+  xmlhttp.send();
+}
+function handlePlay(vol){
+  const pref="cell_"
+  //let cell = document.getElementById("start_end_table").rows[1].cells[0].getElementsByTagName("input");
+  let input = document.getElementById("remoteFileName");
+  let id = vol.id.substring(pref.length);
+  if(input.selectedIndex != -1){
+    let fName = input.selectedOptions[0].value;
+    let startTime=hmsToSeconds(document.getElementById("cell_"+(id-2)).value);
+    let endTime=hmsToSeconds(document.getElementById("cell_"+(id-1)).value);    
+    setVideo(fName, startTime, endTime)
+  }
+}
+function setVideo(fn,startTime,endTime) {
+  let folderName ="users\\Dennis\\" //this variable should be set during registration
+  //let path= fn + "#t="+document.getElementById("TimeRange").value
+  let path= folderName.trim() + fn.trim() +"#t="+startTime+','+endTime;
+  document.getElementById("whatoplay").setAttribute("src",path)
+  
+}
+
+function fileread(file){
+  var input = document.getElementById("inputGroupFile01");
+  var fReader = new FileReader();
+  //input.files[0]  //'C:\\Users\\19256\\Downloads\\Anekdoty.1990.mp4'
+  // fReader.addEventListener('load', (event) => {// doesn't work for large file
+  //   const result = event.target.result;
+  //   // Do something with result
+  //   var img = document.getElementById("whatoplay");
+  //   img.src = result//+"#t="+document.getElementById("TimeRange").value;    
+  // });
+
+  fReader.addEventListener('progress', (event) => {
+    if (event.loaded && event.total) {
+      const percent = (event.loaded / event.total) * 100;
+      console.log(`Progress: ${Math.round(percent)}`);
+    }
+  });
+
+ 
+  fReader.onloadend = function(event){
+    var img = document.getElementById("whatoplay");
+    img.src = event.target.result//+"#t="+document.getElementById("TimeRange").value;
+    //document.getElementById("whatoplay").setAttribute("src",img.src + "#t="+document.getElementById("field2").value)
+  }
+  fReader.readAsDataURL(input.files[0]);  
+}
+// code below set HTML value for a custom-file-label == to file name from the open file dialog
+$(".custom-file-input").on("change", function(event) {
+  var fileName = $(this).val().split("\\").pop();
+  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+  //============================== here was attempt to implement a local read. it works for a small files, that is located in working directory
+  //const fileList = event.target.files;
+  //fileread(fileList[0]) //here we also trying to set video source
+
+});
+// set handler on input file name change 
+//const selectElement = document.getElementById('inputGroupFile01');
+//selectElement.addEventListener('change', fnameChangeHandler);
+var cntRow=1;
+var cntCols=6;
+var suffix = '.mp4';//!! it should be set by selection change of input file extension
+// const selectElementStart = document.getElementById('StartTime0');
+// selectElementStart.addEventListener('change', fnameChangeHandler);
+
+// const selectElementEnd = document.getElementById('EndTime0');
+// selectElementEnd.addEventListener('change', fnameChangeHandler);
+
+const remoteFileName = document.getElementById('remoteFileName');
+remoteFileName.addEventListener('change', fnameChangeHandler);
+</script>
+  
+  <!-- 1:1 aspect ratio 
+  <div class="embed-responsive embed-responsive-1by1">
+	<iframe id="whatoplay" class="embed-responsive-item" src="Is CBD oil expensive - sound byte.mp4#t=5,10"></iframe>
+  </div> -->
+
+  <!--<video id="whatoplay" width="320" height="240" controls="" autoplay="" name="media"><source src="Is%20CBD%20oil%20expensive%20-%20sound%20byte.mp4#t=5,10" type="video/mp4"></video>-->
+  <!--<video id="whatoplay" width="320" height="240" controls="" autoplay="" name="media"><source src="small.mp4" type="video/mp4"></video>-->
+
+
+    <script src="assets/js/jquery-3.2.1.min.js"></script>
+    <script src="assets/js/jquery-migrate-3.0.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="assets/js/jquery.backstretch.min.js"></script>
+    <script src="assets/js/wow.min.js"></script>
+    <script src="assets/js/retina-1.1.0.min.js"></script>
+    <script src="assets/js/waypoints.min.js"></script>
+    <script src="assets/js/scripts.js"></script>
+
+</body> 
+</html>
